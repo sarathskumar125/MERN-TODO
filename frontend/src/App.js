@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import { MDBFooter, MDBContainer, MDBIcon, MDBBtn } from "mdb-react-ui-kit";
+import AddTodo from "./components/AddTodo";
 
 function App() {
   return (
@@ -14,7 +15,9 @@ function App() {
       <Navbar className="bg-info">
         <Container>
           <Navbar.Brand href="#home">
-            <h1><strong style={{fontFamily:"initial"}}>TODO APP</strong></h1>
+            <h1>
+              <strong style={{ fontFamily: "initial" }}>TODO APP</strong>
+            </h1>
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
@@ -27,11 +30,10 @@ function App() {
         </Container>
       </Navbar>
 
+      <AddTodo />
 
-      <MDBFooter
-        className="text-center text-white footer w-100 bg-info footer"
-      >
-        <MDBContainer className="pt-1" >
+      <MDBFooter className="text-center text-white footer w-100 bg-info footer">
+        <MDBContainer className="pt-1">
           <section className="mb-1">
             <MDBBtn
               rippleColor="dark"

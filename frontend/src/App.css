@@ -6,3 +6,14 @@ body {
     position: absolute;
     bottom: 0;
 }
+.addtodo {
+    display:flex;
+    flex-direction: row;
+}
+.addbutton{
+    border-radius: 99px;
+}
+.addinput{
+    border-radius: 10px;
+    margin-right: 1rem;
+}
