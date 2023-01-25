@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import { MDBFooter, MDBContainer, MDBIcon, MDBBtn } from "mdb-react-ui-kit";
 import AddTodo from "./components/AddTodo";
+import DisplayTodo from "./components/DisplayTodo";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
       </Navbar>
 
       <AddTodo />
+      <DisplayTodo />
 
       <MDBFooter className="text-center text-white footer w-100 bg-info footer">
         <MDBContainer className="pt-1">

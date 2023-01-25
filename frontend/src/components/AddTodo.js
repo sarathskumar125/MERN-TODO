@@ -5,13 +5,26 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/Container";
 import { Store } from "../Store";
+import Axios from "axios";
 
-const AddTodo = () => {
+const AddTodo =  () => {
   const [addTodo, setAddTodo] = useState("");
-  const {todo, setTodo} = useContext(Store);
+  const { todo, setTodo } = useContext(Store);
   const addHandler = () => {
-    setTodo([...todo, addTodo]);
-    setAddTodo("");
+    if (addTodo.length === 0) {
+      window.alert("Please enter something for add!");
+    } else {
+      Axios.post("/addTodo", {
+        Data: addTodo, 
+      })
+        .then((res) => setTodo([...todo, res.data]))
+        .then(setAddTodo(""));
+    }
+  };
+  const enterHandler = (e) => {
+    if (e.key === "Enter") {
+      addHandler();
+    }
   };
 
   return (
@@ -24,8 +37,9 @@ const AddTodo = () => {
             className="addinput"
             value={addTodo}
             onChange={(e) => setAddTodo(e.target.value)}
+            onKeyDown={(e) => enterHandler(e)}
           />
-          <Button className="addbutton" onClick={addHandler}>
+          <Button className="bg-info button" onClick={addHandler}>
             <strong>+</strong>
           </Button>
         </Col>

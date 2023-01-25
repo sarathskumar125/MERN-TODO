@@ -1,19 +1,61 @@
 body {
     position: relative;
     min-height: 100vh;
+    background-color: black;
+  }
+  body::after {
+    content: '';
+    display: block;
+    height: 120px; /* Set same as footer's height */
   }
 .footer {
     position: absolute;
     bottom: 0;
+    height: 120px;
+    
 }
 .addtodo {
     display:flex;
     flex-direction: row;
 }
-.addbutton{
+.button{
     border-radius: 99px;
+    border: none;  
 }
 .addinput{
     border-radius: 10px;
     margin-right: 1rem;
+}
+.displaytext{
+    text-align: center;
+    word-wrap: break-word;
+    font-weight: bold;
+    padding: 5px; 
+}
+.displayparent{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 8px;
+    justify-content: center;
+    min-height: 2rem;
+}
+.trashbutton{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.checkbox{
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+}
+.displaytrash{
+max-width: 4rem;
+border-top-right-radius: 20px;
+border-bottom-right-radius: 20px;
+}
+.displaycheck{
+   max-width: 2rem;
+   border-top-left-radius: 20px;
+   border-bottom-left-radius: 20px;
 }
