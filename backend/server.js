@@ -47,10 +47,10 @@ app.post("/checked:id", async (req, res) => {
 });
 app.post("/unChecked:id", async (req, res) => {
   const id = req.params.id;
-   await Todo.findByIdAndUpdate(id, { $set: { checked: false } });
+   await Todo.findByIdAndUpdate(id, { $set: { checked: false } }); 
    const Data = await Todo.findById(id)
    res.send(Data);
-});
+});  
 
 mongoose.set("strictQuery", false);
 
