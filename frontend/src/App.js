@@ -22,7 +22,7 @@ function App() {
     window.location.href = "/login";
   }; 
  
- console.log(user);
+//  console.log(user);
 
   return (
     <div>

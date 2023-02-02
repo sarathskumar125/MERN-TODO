@@ -37,10 +37,10 @@ const SignUp = () => {
     password === confirmPassword && setPassmatch((passmatch = null));
 
     if (
-      username.length >= 4 &&
-      password.length >= 6 &&
-      password === confirmPassword
-    ) {
+      username.length >= 4 && 
+      password.length >= 6 && 
+      password === confirmPassword 
+    ) { 
       try {
       const Datas = await Axios.post("/signup", {
           Username: username,

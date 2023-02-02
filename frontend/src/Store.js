@@ -15,4 +15,4 @@ export function StoreProvider(props) {
   // const value = { todo, user, setTodo, setUser }
   return <Store.Provider value={{todoValue, userValue }}>{props.children}</Store.Provider>;
 }
-   
+    

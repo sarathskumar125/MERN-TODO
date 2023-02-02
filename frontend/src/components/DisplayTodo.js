@@ -8,12 +8,13 @@ import Row from "react-bootstrap/esm/Row";
 import { Store } from "../Store";
 
 const DisplayTodo = () => {
-  const { todoValue } = useContext(Store);
+  const { todoValue, userValue } = useContext(Store);
+  const { user } = userValue;
   const [todo, setTodo] = todoValue;
   const [list, setList] = useState([]);
 
   const deleteHandler = async (id) => {
-    Axios.post(`/deleteTodo${id}`).then((res) => setTodo(res.data));
+    Axios.post(`/deleteTodo${id}/${user._id}`).then((res) => setTodo(res.data));
     const Data = list.filter((x) => x._id !== id);
     setList(Data);
   };
@@ -25,7 +26,7 @@ const DisplayTodo = () => {
         );
       } else {
         Axios.post(`/unChecked${todo._id}`).then((res) =>
-          setList(list.filter((List) => List._id !== res.data._id)) 
+          setList(list.filter((List) => List._id !== res.data._id))
         );
       }
     },
@@ -40,12 +41,14 @@ const DisplayTodo = () => {
 
   useEffect(() => {
     const fetchTodo = () => {
-      Axios.get("/readTodo").then((res) => setTodo(res.data));
+      Axios.get(`/readTodo${user._id}`).then((res) => setTodo(res.data));
     };
-    fetchTodo();
-  }, [setTodo, checkHandler]);
+    if(user){
+      fetchTodo();
+    }
+  }, [setTodo, checkHandler, user]);
 
-  // console.log(todo);
+  //  console.log(user._id);
 
   return (
     <Container className="mt-5 mb-5">

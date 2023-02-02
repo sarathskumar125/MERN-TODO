@@ -5,6 +5,7 @@ import cors from "cors";
 import Todo from "./model/todoModel.js";
 import User from "./model/userModel.js";
 import bcrypt from "bcrypt";
+var objectId = mongoose.Types.ObjectId
 
 const app = express();
 dotenv.config();
@@ -12,25 +13,24 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  const existUser = await User.findOne({username: req.body.Username});
-  if(existUser){
-    res.status(409).send({message:"USERNAME ALREADY EXIST !"})
-  }
-  else{
-  const createuser = await new User({
-    username: req.body.Username,
-    password: bcrypt.hashSync(req.body.Password, 10),
-  });
-  try {
-    const User = await createuser.save();
-    res.send({
-      _id: User._id,
-      username: User.username,
+  const existUser = await User.findOne({ username: req.body.Username });
+  if (existUser) {
+    res.status(409).send({ message: "USERNAME ALREADY EXIST !" });
+  } else {
+    const createuser = await new User({
+      username: req.body.Username,
+      password: bcrypt.hashSync(req.body.Password, 10),
     });
-  } catch (error) {
-    console.log(error);
-    
-  } }
+    try {
+      const User = await createuser.save();
+      res.send({
+        _id: User._id,
+        username: User.username,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 });
 
 app.post("/signin", async (req, res) => {
@@ -39,20 +39,23 @@ app.post("/signin", async (req, res) => {
     if (bcrypt.compareSync(req.body.Password, user.password)) {
       res.send({
         _id: user._id,
-        username: user.username,   
+        username: user.username,
       });
       // return;
-      
-    }else{res.status(401).send({ message: "INVALID USER OR PASSWORD" }); }
+    } else {
+      res.status(401).send({ message: "INVALID USER OR PASSWORD" });
+    }
   } else {
-    res.status(401).send({ message: "INVALID USER OR PASSWORD" }); 
+    res.status(401).send({ message: "INVALID USER OR PASSWORD" });
   }
 });
 
 app.post("/addTodo", async (req, res) => {
   const data = req.body.Data;
+  const ID = req.body.ID;
   const createTodo = new Todo({
     Data: data,
+    userID: ID,
   });
   try {
     const todo = await createTodo.save();
@@ -62,8 +65,10 @@ app.post("/addTodo", async (req, res) => {
   }
 });
 
-app.get("/readTodo", async (req, res) => {
-  const data = await Todo.find({});
+app.get("/readTodo:id", async (req, res) => {
+  const ID = req.params.id;
+  // console.log(ID);
+  const data = await Todo.find({userID:objectId(ID)})  
   try {
     res.send(data);
   } catch (error) {
@@ -71,10 +76,11 @@ app.get("/readTodo", async (req, res) => {
   }
 });
 
-app.post("/deleteTodo:id", async (req, res) => {
+app.post("/deleteTodo:id/:ID", async (req, res) => {
   const id = req.params.id;
+  const ID = req.params.ID
   await Todo.findByIdAndDelete(id);
-  const newTodo = await Todo.find({});
+  const newTodo = await Todo.find({userID:objectId(ID)})  
   res.send(newTodo);
 });
 

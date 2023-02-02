@@ -6,17 +6,27 @@ import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/Container";
 import { Store } from "../Store";
 import Axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddTodo = () => {
+  const navigate = useNavigate()
   const [addTodo, setAddTodo] = useState("");
-  const { todoValue } = useContext(Store);
+  const { todoValue, userValue } = useContext(Store);
+  const { user } = userValue;
   const [todo, setTodo] = todoValue;
   const addHandler = () => {
     if (addTodo.length === 0) {
       window.alert("Please enter something for add!");
+      return;
+    }
+    if (!user) {
+      toast.info("PLEASE LOGIN OR REGISTER FOR ADD TODO");
+      navigate('/login')
     } else {
       Axios.post("/addTodo", {
         Data: addTodo,
+        ID: user._id,
       })
         .then((res) => setTodo([...todo, res.data]))
         .then(setAddTodo(""));
@@ -27,7 +37,7 @@ const AddTodo = () => {
       addHandler();
     }
   };
-
+  // console.log(user);
   return (
     <Container className="mt-5">
       <Row className="justify-content-center">
