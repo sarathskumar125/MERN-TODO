@@ -1,38 +1,80 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import { Helmet } from "react-helmet-async";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import { MDBFooter, MDBContainer, MDBIcon, MDBBtn } from "mdb-react-ui-kit";
-import AddTodo from "./components/AddTodo";
-import DisplayTodo from "./components/DisplayTodo";
+import SignUp from "./components/SignUp";
+import Home from "./components/Home";
+import Signin from "./components/Signin";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Store } from "./Store";
 
 function App() {
+  const { userValue } = useContext(Store);
+  const {user} = userValue;
+
+
+  const signoutHandler = () => {
+    localStorage.removeItem("USERINFO");
+    window.location.href = "/login";
+  }; 
+ 
+ console.log(user);
+
   return (
     <div>
       <Helmet>
         <title>TODO-APP</title>
       </Helmet>
+
+      <ToastContainer
+        position="bottom-center"
+        autoClose="3000"
+        theme="dark"
+        limit={1}
+      />
+
       <Navbar className="bg-info">
         <Container>
-          <Navbar.Brand href="#home">
-            <h1>
+          <Navbar.Brand href="/">
+            <h3>
               <strong style={{ fontFamily: "initial" }}>TODO APP</strong>
-            </h1>
+            </h3>
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-              <strong>
-                Signed in as: <a href="#login">Username</a>
-              </strong>
+              {user ? (
+                <>
+                  <strong className="mr-3">
+                    Signed in as: <a href="#!">{user.username}</a>
+                  </strong>
+                  <strong>
+                    <Link to="#signout" onClick={signoutHandler}>
+                      {" "}
+                      signout
+                    </Link>
+                  </strong>
+                </>
+              ) : (
+                <strong>
+                  {" "}
+                  <a href="/login">Login</a>{" "}
+                </strong>
+              )}
             </Navbar.Text>
           </Navbar.Collapse>
         </Container>
       </Navbar>
 
-      <AddTodo />
-      <DisplayTodo />
+      <Routes>
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Signin />} />
+        <Route path="/" element={<Home />} />
+      </Routes>
 
       <MDBFooter className="text-center text-white footer w-100 bg-info footer">
         <MDBContainer className="pt-1">

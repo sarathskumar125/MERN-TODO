@@ -7,15 +7,16 @@ import Container from "react-bootstrap/Container";
 import { Store } from "../Store";
 import Axios from "axios";
 
-const AddTodo =  () => {
+const AddTodo = () => {
   const [addTodo, setAddTodo] = useState("");
-  const { todo, setTodo } = useContext(Store);
+  const { todoValue } = useContext(Store);
+  const [todo, setTodo] = todoValue;
   const addHandler = () => {
     if (addTodo.length === 0) {
       window.alert("Please enter something for add!");
     } else {
       Axios.post("/addTodo", {
-        Data: addTodo, 
+        Data: addTodo,
       })
         .then((res) => setTodo([...todo, res.data]))
         .then(setAddTodo(""));

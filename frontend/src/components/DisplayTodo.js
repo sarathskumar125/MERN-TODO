@@ -8,12 +8,11 @@ import Row from "react-bootstrap/esm/Row";
 import { Store } from "../Store";
 
 const DisplayTodo = () => {
-  const { todo, setTodo } = useContext(Store);
+  const { todoValue } = useContext(Store);
+  const [todo, setTodo] = todoValue;
   const [list, setList] = useState([]);
 
   const deleteHandler = async (id) => {
-    // const filteredTodo = todo.filter((_, a) => a !== data);
-    // setTodo(filteredTodo);
     Axios.post(`/deleteTodo${id}`).then((res) => setTodo(res.data));
     const Data = list.filter((x) => x._id !== id);
     setList(Data);
@@ -26,7 +25,7 @@ const DisplayTodo = () => {
         );
       } else {
         Axios.post(`/unChecked${todo._id}`).then((res) =>
-          setList(list.filter((List) => List._id !== res.data._id))
+          setList(list.filter((List) => List._id !== res.data._id)) 
         );
       }
     },
@@ -46,7 +45,7 @@ const DisplayTodo = () => {
     fetchTodo();
   }, [setTodo, checkHandler]);
 
-  console.log(list);
+  // console.log(todo);
 
   return (
     <Container className="mt-5 mb-5">

@@ -59,3 +59,12 @@ border-bottom-right-radius: 20px;
    border-top-left-radius: 20px;
    border-bottom-left-radius: 20px;
 }
+.signupcol{
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 2em;
+}
+.err{
+    font-style: italic;
+    color: red;
+}
